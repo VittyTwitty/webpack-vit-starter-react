@@ -2,3 +2,39 @@
 
 @import '~slick-carousel/slick/slick.scss';
 @import '~slick-carousel/slick/slick-theme.scss';
+
+
+
+// slick slider custom
+.v-slider-wrapper {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  color: #333;
+  background: #419be0;
+}
+.slick-initialized .slick-slide {
+  display: flex;
+}
+.slick-slide {
+  text-align: center;
+  color: #419be0;
+  background: white;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  img {
+    flex: 1;
+    height: 400px;
+    object-fit: cover;
+  }
+}
+.single-item {
+  height: 100%;
+}
+.slick-list {
+  height: 100%;
+}
+.slick-dots {
+  bottom: 10px;
+}

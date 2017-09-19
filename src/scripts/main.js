@@ -26,5 +26,9 @@ $(window).scroll(function() {
 
 $(function() {
   console.log( "ready!" );
-  $('.single-item').slick();
+  $('.single-item').slick({
+    dots: true,
+    prevArrow: false,
+    nextArrow: false
+  });
 });

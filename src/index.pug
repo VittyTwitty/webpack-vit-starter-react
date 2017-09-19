@@ -20,9 +20,9 @@ html(lang='en')
             .header_bottom
                 div.v-slider-wrapper
                     ul.single-item
-                        li 1
-                        li 2
-                        li 3
+                        each val in ['http://cdn.fishki.net/upload/post/201411/26/1334081/57542_trava_priroda_doroga_leto_1920x1200_wwwgdefonru.jpg', 'http://fotointeres.ru/wp-content/uploads/2011/09/unrealistic_scenes_nathan_spotts_09.jpg', 'http://elitefon.ru/images/201211/elitefon.ru_18998.jpg', 'http://7oom.ru/wp-content/uploads/foto-priroda-23.jpg']
+                            li
+                                img(src= val)
 
         section.s-main
             .container
@@ -31,9 +31,9 @@ html(lang='en')
                         a(href='search-main.html') Поиск
                 .row
                     - var max=100
-                    .col-md-12
-                        - for(var i=0; i<max; i++)
-                            hr
+                        .col-md-12
+                            - for(var i=0; i<max; i++)
+                                hr
 
         footer
 
