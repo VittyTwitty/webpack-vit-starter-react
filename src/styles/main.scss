@@ -1,0 +1,70 @@
+@import 'reset.css';
+@import 'libs';
+@import 'variables';
+@import 'custom-classes';
+
+
+
+body {
+  background-color: #e4e1df;
+
+}
+
+.header {
+  &_top {
+    width: 100%;
+    height: 100px;
+    z-index: 1000;
+    position: relative;
+    width: 100%;
+    background-color: $main_color;
+    transition: height 0.3s;
+
+  }
+  nav {
+    .main-menu {
+      transition: 0.3s;
+      display: flex;
+      height: 100px;
+      align-items: center;
+      li {
+        margin-right: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        a {
+          text-decoration: none;
+          color: white;
+          &:hover {
+            color: #e4e1df;
+          }
+        }
+      }
+    }
+  }
+  &_bottom {
+    height: 400px;
+    width: 100%;
+    background-color: #ccc;
+    .v-slider-wrapper {
+      margin: 0 auto;
+      padding: 40px;
+      width: 80%;
+      color: #333;
+      background: #419be0;
+    }
+
+    .slick-slide {
+      text-align: center;
+      color: #419be0;
+      background: white;
+    }
+  }
+}
+
+
+
+footer {
+  width: 100%;
+  height: 50px;
+  background-color: $main_color;
+}

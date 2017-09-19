@@ -1,0 +1,39 @@
+doctype
+html(lang='en')
+    head
+        meta(name='viewport')
+        meta(content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0')
+        meta(http-equiv="X-UA-Compatible")
+        title= 1
+    body
+        header.header
+            .header_top
+                .container
+                    .row
+                        .col-xs-4
+                        .col-xs-8
+                            nav
+                                ul.main-menu
+                                    each val in ['Buy', 'Sell', 'Rent', 'Landlords', 'About us']
+                                        li
+                                            a= val
+            .header_bottom
+                div.v-slider-wrapper
+                    ul.single-item
+                        li 1
+                        li 2
+                        li 3
+
+        section.s-main
+            .container
+                .row
+                    .col-md-12
+                        a(href='search-main.html') Поиск
+                .row
+                    - var max=100
+                    .col-md-12
+                        - for(var i=0; i<max; i++)
+                            hr
+
+        footer
+
