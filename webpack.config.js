@@ -3,7 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const resolveUrl = require("resolve-url");
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -34,7 +34,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader',
-          {loader: 'css-loader', options: {modules: true}}
+          {loader: "style-loader!css-loader?importLoaders=1", options: {modules: true}}
         ]
       },
       {
@@ -51,21 +51,26 @@ module.exports = {
                 }
               }
             },
-            'sass-loader'
+            'resolve-url-loader',
+            'sass-loader?sourceMap'
           ]
         })
       },
       {
         test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
-        loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+        loader: 'url-loader?limit=30000&name=assets/fonts/[name]-[hash].[ext]',
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("styles/styles.css"),
+    new ExtractTextPlugin("styles.css"),
     new CopyWebpackPlugin([
       {from: 'assets/**/*'}
-    ]),
+    ], {
+      ignore: [{
+        glob: 'assets/fonts/*'
+      }]
+    }),
     new HtmlWebpackPlugin({
       title: 'My App',
       filename: 'index.html',

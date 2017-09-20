@@ -1,7 +1,7 @@
 let shrinkHeader = 1;
-$(window).scroll(function() {
+$(window).scroll(function () {
   let scroll = getCurrentScroll();
-  if(scroll >= shrinkHeader) {
+  if (scroll >= shrinkHeader) {
     $('.header_top').addClass('cloned');
   } else {
     $('.header_top').removeClass('cloned');
@@ -12,20 +12,8 @@ $(window).scroll(function() {
   }
 });
 
-
-// let firstPointHeader = $('.header').offset().top;
-//
-// $(window).scroll(function () {
-//   console.log('main');
-//   let header = $('.header');
-//   let scroll = $(window).scrollTop();
-//
-//   if (scroll >= firstPointHeader) header.addClass('fixed');
-//   else header.removeClass('fixed');
-// });
-
-$(function() {
-  console.log( "ready!" );
+$(function () {
+  console.log("ready!");
   $('.single-item').slick({
     dots: true,
     prevArrow: false,

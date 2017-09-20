@@ -1,13 +1,12 @@
+// styles
 import '../styles/main.scss';
-import 'slick-carousel/slick/slick';
+
+// libs scripts
 import './libs.js';
+
+// customs jquery scripts
 import './main.js';
 
-
-
-
-
-params => ({foo: bar});
 console.log('index');
 
 

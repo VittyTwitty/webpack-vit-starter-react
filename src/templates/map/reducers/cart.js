@@ -11,11 +11,7 @@ export default function cart(state = [], action) {
       return state.filter(todo =>
         todo.id !== action.payload
       );
-
-
     default:
       return state
-
   }
-
 }
