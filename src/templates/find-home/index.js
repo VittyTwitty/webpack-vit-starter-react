@@ -1,81 +1,75 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import searchData from "../data";
+import searchData from '../data';
 
-class SearchForm extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props.items);
+
+class SearchForm extends Component {
+  constructor() {
+    super();
     this.state = {
-      data: this.props.items,
-      items: []
-    }
+      data: []
+    };
+    this.searchInput = this.searchInput.bind(this);
   }
 
-  searchData(e) {
-    let queryData = [];
-    if (e.target.value != '') {
-      this.state.data.forEach(function (person) {
+  searchInput(e) {
+    let searchQuery = e.target.value.toLowerCase();
 
-        if (person.toLowerCase().indexOf(e.target.value) != -1) {
-          if (queryData.length < 10) {
-            queryData.push(person);
-          }
-        }
+    let displayedData = this.props.items.filter(function (item) {
+      let searchValue = item.toLowerCase();
+
+      return searchValue.indexOf(searchQuery) !== -1;
+    });
+
+    if (searchQuery.length === 0) {
+      this.setState({
+        data: []
+      });
+    } else {
+      this.setState({
+        data: displayedData
       });
     }
-    this.setState({list: queryData});
+
   }
 
   render() {
     return (
       <div>
-        <SearchBar search={this.searchData.bind(this)}/>
-        {(this.state.list) ? <SearchResult data={this.state.list}/> : null}
+        <input
+          type="text"
+          onChange={this.searchInput}
+        />
+        <ResultsList data={this.state.data}/>
       </div>
     )
   }
 }
 
-class SearchBar extends React.Component {
-  render() {
-    return (
-      <div>
-        <input onChange={this.props.search} placeholder="Search Pokemon"/>
-      </div>
-    )
-  }
-}
-
-class SearchResult extends React.Component {
-
+class ResultsList extends Component {
   render() {
     return (
       <div>
         <ul>
-          {this.props.data.map(function (value) {
-            return <Item key={value} val={value}/>
-          })}
+          {
+            this.props.data.map((item, i) =>
+              <ResultsItem key={i} item={item}/>
+            )}
         </ul>
       </div>
     )
-
   }
-
 }
 
-
-class Item extends React.Component {
+class ResultsItem extends Component {
   render() {
     return (
       <li>
-        {this.props.val}
+        {this.props.item}
       </li>
     )
   }
-
 }
-
 
 ReactDOM.render(
   <SearchForm items={searchData}/>,
