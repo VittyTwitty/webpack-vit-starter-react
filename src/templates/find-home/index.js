@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Highlighter from 'react-highlight-words';
-import './Higlight.scss';
+import './main.scss';
 import axios from 'axios';
 
 let dataPeoples = require('./data.json');
@@ -12,30 +12,38 @@ class SearchForm extends Component {
     this.state = {
       data: [],
       dataCategories: ['1', '2', '3'],
-      names: []
+      names: [],
+      searchTerm: 'results'
     };
     this.searchInput = this.searchInput.bind(this);
   }
-
   componentDidMount() {
-    axios.get('https://randomuser.me/api/?results=5000')
+    axios.get(`https://randomuser.me/api/?results=${this.state.searchTerm}`)
       .then(res => {
         let names = [];
         res.data.results.map((element) => {
           names.push(element.name.first);
         });
+        console.log(names)
 
         this.setState({
           names: names
         });
-        console.log(this.state.names);
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
+  componentWillUpdate() {
+    this.searchTerm = this.searchInputReference.value
+    console.log('this.searchTerm = this.searchInputReference.value', this.searchTerm)
+  }
+
   searchInput(e) {
+    console.log('this.state.names', this.state.names);
+    console.log('this.props.items', this.props.items);
+
     let searchQuery = e.target.value.toLowerCase();
     let displayedData = this.props.items.filter((item) => {
       let searchValue = item.name.toLowerCase();
@@ -96,26 +104,25 @@ class ResultsList extends Component {
     let arrayResults = this.props.data;
     let input = this.props.a;
     let dataCategories = this.props.dataCategories;
-    console.log(arrayResults.length);
 
     return (
-      <div>{arrayResults.length !== 0 ? <div className='list-search-wrapper'>
-        {
-          dataCategories.map((elem, index) =>
-            <ul key={index} className='list-search-items'>
-              <li>{elem}</li>
-              {
-                arrayResults.map((item, i) =>
-                  <ResultsItem key={i} item={item} in={input}/>
-                )
-              }
-            </ul>
-          )
+      <div className='list-search-wrapper'>
+        {arrayResults.length !== 0 ? <div>
+          {
+            dataCategories.map((elem, index) =>
+              <ul key={index} className='list-search-items'>
+                <li>{elem}</li>
+                {
+                  arrayResults.map((item, i) =>
+                    <ResultsItem key={i} item={item} in={input}/>
+                  )
+                }
+              </ul>
+            )
+          }
+        </div> : ''
         }
-      </div> : ''
-      }
       </div>
-
     )
   }
 }

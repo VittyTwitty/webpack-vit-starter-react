@@ -2,15 +2,6 @@
   background-color: #00ceff;
 }
 
-.list-search-wrapper {
-  max-height: 400px;
-  overflow: auto;
-}
-.list-search-items {
-  border-top: 1px solid #00ceff;
-}
-
-
 .v-slider-wrapper_search {
   &-body {
     width: 100%;
@@ -82,5 +73,19 @@
       min-height: 80px;
       background-color: #fff;
     }
+  }
+
+  .list-search-wrapper {
+    max-height: 400px;
+    overflow: auto;
+    width: 100%;
+    position: absolute;
+    background-color: #fff;
+  }
+  .list-search-items{
+    padding: 15px;
+  }
+  .list-search-items:not(:last-child) {
+    border-bottom: 1px solid #00ceff;
   }
 }
