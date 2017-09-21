@@ -1,5 +1,5 @@
 export default url => {
-  return new Propmise((success, fail) => {
+  return new Promise((success, fail) => {
     const request = new XMLHttpRequest();
     request.open('GET', url, true);
 
@@ -14,7 +14,5 @@ export default url => {
     });
 
     request.send();
-
-  })
-
-}
+  });
+};

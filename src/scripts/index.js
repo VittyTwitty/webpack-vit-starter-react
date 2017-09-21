@@ -5,7 +5,7 @@ import '../styles/main.scss';
 import './libs.js';
 
 // customs jquery scripts
-import './main.js';
+import './common.js';
 
 console.log('index');
 

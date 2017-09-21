@@ -1,31 +1,44 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import searchData from '../data';
 import Highlighter from 'react-highlight-words';
 import './Higlight.scss';
-import load from '../load';
+import axios from 'axios';
+
+let dataPeoples = require('./data.json');
 
 class SearchForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      data: []
+      data: [],
+      dataCategories: ['1', '2', '3'],
+      names: []
     };
     this.searchInput = this.searchInput.bind(this);
   }
 
-  loadData() {
-    load(this.props.data).then(users => {
-      this.setState({
-        data: JSON.parse(users)
-      });
-    });
+  componentDidMount() {
+    axios.get('https://randomuser.me/api/?results=5000')
+      .then(res => {
+        let names = [];
+        res.data.results.map((element) => {
+          names.push(element.name.first);
+        });
+
+        this.setState({
+          names: names
+        });
+        console.log(this.state.names);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   searchInput(e) {
     let searchQuery = e.target.value.toLowerCase();
     let displayedData = this.props.items.filter((item) => {
-      let searchValue = item.toLowerCase();
+      let searchValue = item.name.toLowerCase();
       return searchValue.indexOf(searchQuery) !== -1;
     });
     if (searchQuery.length === 0) {
@@ -37,22 +50,42 @@ class SearchForm extends Component {
         data: displayedData
       });
     }
-
   }
-
 
   render() {
     let dt = this.state.data;
+    let dataCategories = this.state.dataCategories;
     return (
       <div>
-        <input
-          type="text"
-          onChange={this.searchInput}
-          ref={(input) => {
-            this.searchInputReference = input
-          }}
+        <input id='tab1' type='radio' name='rad-search' defaultChecked='true'/>
+        <label htmlFor='tab1' className='v-slider-wrapper_search-button1'>Find home</label>
+        <input id='tab2' type='radio' name='rad-search'/>
+        <label htmlFor='tab2' className='v-slider-wrapper_search-button2'>Sell my home</label>
+        <div id='search-1'>
+          <input
+            id='search-1-input'
+            type='text'
+            placeholder='Find home'
+            onChange={this.searchInput}
+            ref={(input) => {
+              this.searchInputReference = input
+            }}
+          />
+          <button>
+            <img src='../../assets/img/search-home/search-icon.svg' alt=""/>
+          </button>
+        </div>
+        <div id='search-2'>
+          <input id='search-2-input' type='text' placeholder='Find home'/>
+          <button>
+            <img src='../../assets/img/search-home/search-icon.svg' alt=""/>
+          </button>
+        </div>
+        <ResultsList
+          a={this.searchInputReference}
+          data={dt}
+          dataCategories={dataCategories}
         />
-        <ResultsList a={this.searchInputReference} data={dt}/>
       </div>
     )
   }
@@ -62,15 +95,27 @@ class ResultsList extends Component {
   render() {
     let arrayResults = this.props.data;
     let input = this.props.a;
+    let dataCategories = this.props.dataCategories;
+    console.log(arrayResults.length);
+
     return (
-      <div>
-        <ul>
-          {
-            arrayResults.map((item, i) =>
-              <ResultsItem key={i} item={item} in={input}/>
-            )}
-        </ul>
+      <div>{arrayResults.length !== 0 ? <div className='list-search-wrapper'>
+        {
+          dataCategories.map((elem, index) =>
+            <ul key={index} className='list-search-items'>
+              <li>{elem}</li>
+              {
+                arrayResults.map((item, i) =>
+                  <ResultsItem key={i} item={item} in={input}/>
+                )
+              }
+            </ul>
+          )
+        }
+      </div> : ''
+      }
       </div>
+
     )
   }
 }
@@ -81,17 +126,19 @@ class ResultsItem extends Component {
     let input = this.props.in;
     return (
       <li>
-        <Highlighter
-          highlightClassName={'Highlight'}
-          searchWords={[`${input.value}`]}
-          textToHighlight={selfItem}
-        />
+        <a href="/">
+          <Highlighter
+            highlightClassName={'Highlight'}
+            searchWords={[`${input.value}`]}
+            textToHighlight={selfItem.name}
+          />
+        </a>
       </li>
     )
   }
 }
 
 ReactDOM.render(
-  <SearchForm items='data.json'/>,
-  document.getElementById('rr-find-home')
+  <SearchForm items={dataPeoples}/>,
+  document.getElementById('v-slider-wrapper_search-body')
 );

@@ -8,8 +8,9 @@ const resolveUrl = require("resolve-url");
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
-    vendor: ["jquery"],
-    index: './scripts/index.js'
+    vendor: ['jquery', 'react', 'react-dom', 'highlight-words-core'],
+    index: './scripts/index.js',
+    'find-home': './templates/find-home/index.js'
   },
   output: {
     filename: 'scripts/[name].js',
@@ -63,7 +64,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin("styles.css"),
+    new ExtractTextPlugin("[name].css"),
     new CopyWebpackPlugin([
       {from: 'assets/**/*'}
     ], {
@@ -90,12 +91,17 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
-      // filename: "vendor.js"
-      // (Give the chunk a different name)
 
-      minChunks: Infinity,
-      // (with more entries, this ensures that no other module
-      //  goes into the vendor chunk)
+      // the name or list of names must match the name or names
+      // of the entry points that create the async chunks
+
+      // children: true,
+
+      // async: true,
+      // (create an async commons chunk)
+
+      minChunks: 3,
+      // (3 children must share the module before it's separated)
     })
   ]
 
