@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import searchData from '../data';
-
+import Highlighter from 'react-highlight-words';
+import './Higlight.scss';
+import load from '../load';
 
 class SearchForm extends Component {
   constructor() {
@@ -12,15 +14,20 @@ class SearchForm extends Component {
     this.searchInput = this.searchInput.bind(this);
   }
 
+  loadData() {
+    load(this.props.data).then(users => {
+      this.setState({
+        data: JSON.parse(users)
+      });
+    });
+  }
+
   searchInput(e) {
     let searchQuery = e.target.value.toLowerCase();
-
-    let displayedData = this.props.items.filter(function (item) {
+    let displayedData = this.props.items.filter((item) => {
       let searchValue = item.toLowerCase();
-
       return searchValue.indexOf(searchQuery) !== -1;
     });
-
     if (searchQuery.length === 0) {
       this.setState({
         data: []
@@ -33,14 +40,19 @@ class SearchForm extends Component {
 
   }
 
+
   render() {
+    let dt = this.state.data;
     return (
       <div>
         <input
           type="text"
           onChange={this.searchInput}
+          ref={(input) => {
+            this.searchInputReference = input
+          }}
         />
-        <ResultsList data={this.state.data}/>
+        <ResultsList a={this.searchInputReference} data={dt}/>
       </div>
     )
   }
@@ -48,12 +60,14 @@ class SearchForm extends Component {
 
 class ResultsList extends Component {
   render() {
+    let arrayResults = this.props.data;
+    let input = this.props.a;
     return (
       <div>
         <ul>
           {
-            this.props.data.map((item, i) =>
-              <ResultsItem key={i} item={item}/>
+            arrayResults.map((item, i) =>
+              <ResultsItem key={i} item={item} in={input}/>
             )}
         </ul>
       </div>
@@ -63,15 +77,21 @@ class ResultsList extends Component {
 
 class ResultsItem extends Component {
   render() {
+    let selfItem = this.props.item;
+    let input = this.props.in;
     return (
       <li>
-        {this.props.item}
+        <Highlighter
+          highlightClassName={'Highlight'}
+          searchWords={[`${input.value}`]}
+          textToHighlight={selfItem}
+        />
       </li>
     )
   }
 }
 
 ReactDOM.render(
-  <SearchForm items={searchData}/>,
+  <SearchForm items='data.json'/>,
   document.getElementById('rr-find-home')
 );
